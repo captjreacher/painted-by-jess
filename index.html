@@ -90,13 +90,14 @@ a{color:inherit;text-decoration:none}
 /* ---- header ---- */
 header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);transition:box-shadow .25s}
 header.scrolled{box-shadow:0 6px 24px -14px rgba(20,16,23,.3)}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding-top:14px;padding-bottom:14px}
-.nav-logo{font-size:1.15rem}
-.nav-links{display:flex;align-items:center;gap:1.6rem;list-style:none}
-.nav-links a{font-weight:600;font-size:.94rem;color:var(--ink-2);transition:color .15s;position:relative}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:1.1rem;padding-top:14px;padding-bottom:14px}
+.nav-logo{font-size:1.05rem}
+.nav-links{display:flex;align-items:center;gap:1.05rem;list-style:none}
+.nav-links a{font-weight:600;font-size:.88rem;color:var(--ink-2);transition:color .15s;position:relative;white-space:nowrap}
 .nav-links a:hover{color:var(--pink)}
-.nav-cta{display:flex;align-items:center;gap:.8rem}
-.nav-phone{font-weight:700;color:var(--ink);font-size:.95rem;display:inline-flex;align-items:center;gap:.4em}
+.nav-cta{display:flex;align-items:center;gap:.7rem}
+.nav-phone{font-weight:700;color:var(--ink);font-size:.88rem;display:inline-flex;align-items:center;gap:.4em;white-space:nowrap}
+.nav-cta .btn{padding:.7em 1.15em;font-size:.9rem;white-space:nowrap}
 .burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:8px}
 .burger span{width:26px;height:3px;background:var(--ink);border-radius:2px;transition:.25s}
 
@@ -232,6 +233,15 @@ section{padding:clamp(58px,8vw,104px) 0}
 .field textarea{resize:vertical;min-height:96px}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .form-note{font-size:.78rem;color:var(--ink-2);margin-top:.3rem}
+.honeypot{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}
+.form-status{font-size:.9rem;font-weight:600;margin-top:.9rem;padding:.7em 1em;border-radius:12px;display:none}
+.form-status.show{display:block}
+.form-status.is-info{background:var(--pink-wash);color:var(--pink-dk)}
+.form-status.is-error{background:#fff;color:var(--pink-dk);border:1.5px solid var(--pink)}
+.conf-ref{margin:1rem auto 0;display:inline-flex;flex-direction:column;gap:.15rem;background:var(--pink-wash);border:1px dashed var(--pink);border-radius:14px;padding:.7em 1.2em}
+.conf-ref span{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--pink-dk)}
+.conf-ref strong{font-family:'Anton';font-size:1.25rem;letter-spacing:.03em;color:var(--ink)}
+.success:focus{outline:none}
 .success{display:none;text-align:center;padding:2rem 1rem}
 .success.show{display:block}
 .success .tick{width:70px;height:70px;border-radius:50%;background:var(--pink-wash);color:var(--pink);display:grid;place-items:center;margin:0 auto 1rem}
@@ -246,7 +256,7 @@ footer a{transition:color .15s}
 footer a:hover{color:var(--pink-lt)}
 .foot-brand p{margin-top:.9rem;max-width:34ch;font-size:.92rem}
 .foot-list{list-style:none;display:grid;gap:.55rem;font-size:.92rem}
-.foot-contact a{display:flex;gap:.6em;align-items:center}
+.foot-contact a{display:inline-flex;gap:.45em;align-items:center;white-space:nowrap}
 .foot-social{display:flex;gap:.7rem;margin-top:1rem}
 .foot-social a{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.08);display:grid;place-items:center;color:#fff;transition:.2s}
 .foot-social a:hover{background:var(--pink);transform:translateY(-3px)}
@@ -554,14 +564,12 @@ footer a:hover{color:var(--pink-lt)}
             </div>
           </div>
           <div class="field"><label for="message">Tell us about your project</label><textarea id="message" name="message" placeholder="e.g. Repaint the lounge and hallway, walls and ceilings, keen to book in the next month or so."></textarea></div>
+          <div class="honeypot" aria-hidden="true"><label for="pbj-hp">Leave this field empty</label><input id="pbj-hp" name="_hp_field" type="text" tabindex="-1" autocomplete="new-password" inputmode="none" aria-hidden="true" /></div>
+          <div class="form-status" id="quote-status" data-form-status role="status" aria-live="polite"></div>
           <button type="submit" class="btn btn-pink btn-lg" style="width:100%">Send my free quote request →</button>
-          <p class="form-note">This opens your email app with the details ready to send to Jess. Prefer to talk? Just call or text 021 0812 3478.</p>
+          <p class="form-note">No email app needed — your request goes straight to Jess. Prefer to talk? Just call or text 021 0812 3478.</p>
         </form>
-        <div class="success" id="success">
-          <div class="tick"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></div>
-          <h3>Thanks — your request is ready to send!</h3>
-          <p>Your email app should have opened with everything filled in. Hit send and Jess will be in touch soon. If it didn't open, email <a href="mailto:paintedbyjessnz@gmail.com" style="color:var(--pink);font-weight:600">paintedbyjessnz@gmail.com</a> or call <strong>021 0812 3478</strong>.</p>
-        </div>
+        <div class="success" id="success" data-confirmation tabindex="-1"></div>
       </div>
     </div>
   </div>
@@ -635,6 +643,17 @@ footer a:hover{color:var(--pink-lt)}
 }
 </script>
 
+<!-- Form backend config: shared Maximised AI Supabase Edge Function (mirrors Supercity Interiors pattern).
+     anonKey is the project's PUBLIC Supabase anon key (safe to expose client-side).
+     STAGING: the painted-by-jess-contact function must be deployed to this project and its
+     notification recipients (PAINTED_BY_JESS_INTERNAL_NOTIFICATION_EMAIL / _QUOTE_TEST_EMAIL)
+     set to Mike. Jess's production address is intentionally not configured yet. -->
+<script>
+window.PaintedByJessConfig = window.PaintedByJessConfig || {
+  endpoint: 'https://jqfodlzcsgfocyuawzyx.functions.supabase.co/painted-by-jess-contact',
+  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxZm9kbHpjc2dmb2N5dWF3enl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjExNjEzNTUsImV4cCI6MjA3NjczNzM1NX0.LLdRTNerb3J6WxQUg3tXUbKt7wDhOpm--nSlWAhYYqA'
+};
+</script>
 <script>
 // year
 document.getElementById('yr').textContent = new Date().getFullYear();
@@ -648,34 +667,113 @@ const burger = document.getElementById('burger');
 burger.addEventListener('click', () => header.classList.toggle('open'));
 document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => header.classList.remove('open')));
 
-// quote form -> mailto + success
-document.getElementById('quoteForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  const f = e.target;
-  if(!f.name.value.trim() || !f.phone.value.trim() || !f.suburb.value.trim()){
-    alert('Please add your name, phone and suburb so Jess can get back to you.');
-    return;
+// ---- Quote form: server-side submission (mirrors the Supercity Interiors architecture) ----
+(function(){
+  var form = document.getElementById('quoteForm');
+  if(!form) return;
+  var cfg = window.PaintedByJessConfig || {};
+  var endpoint = cfg.endpoint || '';
+  var panel = document.getElementById('success');
+  var statusEl = document.getElementById('quote-status');
+  var HP = '_hp_field';
+
+  function setStatus(type, msg){
+    if(!statusEl) return;
+    statusEl.className = 'form-status' + (type ? ' is-' + type + ' show' : '');
+    statusEl.textContent = msg || '';
   }
-  const subject = `Quote request — ${f.name.value} (${f.suburb.value})`;
-  const body =
-`Hi Jess, I'd like a quote.
+  function buildHeaders(){
+    var h = { 'Content-Type': 'application/json' };
+    if(cfg.anonKey){ h.apikey = cfg.anonKey; h.Authorization = 'Bearer ' + cfg.anonKey; }
+    return h;
+  }
+  function v(id){ var el = document.getElementById(id); return el ? String(el.value || '').trim() : ''; }
+  function validEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 
-Name: ${f.name.value}
-Phone: ${f.phone.value}
-Email: ${f.email.value || '-'}
-Suburb: ${f.suburb.value}
-Job type: ${f.jobtype.value}
-Scope: ${f.scope.value}
+  function showConfirmation(reference){
+    if(!panel) return;
+    var refBlock = reference ? '<div class="conf-ref"><span>Your reference</span><strong>' + reference + '</strong></div>' : '';
+    panel.innerHTML =
+      '<div class="tick"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></div>' +
+      '<h3>Thanks — your request is in!</h3>' +
+      '<p>Your quote request has been received and Jess will be in touch, usually within one business day.</p>' +
+      refBlock +
+      '<p style="margin-top:.7rem">Prefer to talk now? Call or text <strong>021 0812 3478</strong>.</p>';
+    form.style.display = 'none';
+    panel.classList.add('show');
+    if(panel.focus){ panel.focus(); }
+  }
 
-Details:
-${f.message.value || '-'}
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    setStatus('', '');
 
-(Promo code: SITE10 — 10% off labour)`;
-  const mailto = `mailto:paintedbyjessnz@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  window.location.href = mailto;
-  f.style.display = 'none';
-  document.getElementById('success').classList.add('show');
-});
+    // Honeypot: a bot that fills the hidden field gets a silent success and no request is sent.
+    var hp = form.querySelector('[name="' + HP + '"]');
+    if(hp && String(hp.value || '').trim()){ showConfirmation(''); return; }
+
+    // Preserve existing validation: name, phone and suburb required; email validated only if provided.
+    if(!v('name') || !v('phone') || !v('suburb')){
+      setStatus('error', 'Please add your name, phone and suburb so Jess can get back to you.');
+      return;
+    }
+    if(v('email') && !validEmail(v('email'))){
+      setStatus('error', 'Please enter a valid email address, or leave it blank.');
+      return;
+    }
+    if(!endpoint){
+      setStatus('error', 'Sorry — the form isn\'t configured yet. Please call or text 021 0812 3478.');
+      return;
+    }
+
+    var payload = {
+      enquiry_type: 'quote',
+      full_name: v('name'),
+      email: v('email'),
+      phone: v('phone'),
+      company_name: '',
+      business_name: 'Painted By Jess',
+      message: v('message'),
+      source_site: 'painted-by-jess',
+      source_page: 'quote',
+      project: {
+        suburb: v('suburb'),
+        job_type: v('jobtype'),
+        scope: v('scope'),
+        promo_code: 'SITE10'
+      }
+    };
+
+    var btn = form.querySelector('[type="submit"]');
+    var label = btn ? btn.textContent : '';
+    if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
+    setStatus('info', 'Sending your request…');
+
+    var okResponse = false;
+    fetch(endpoint, { method: 'POST', headers: buildHeaders(), body: JSON.stringify(payload) })
+      .then(function(res){
+        okResponse = res.ok;
+        return res.text().then(function(text){
+          var data = text ? JSON.parse(text) : {};
+          if(!res.ok || data.ok === false){ throw new Error((data && data.error) || 'Request failed'); }
+          return data;
+        });
+      })
+      .then(function(data){
+        var ref = (data && (data.reference || data.ref)) || '';
+        setStatus('', '');
+        showConfirmation(ref);
+      })
+      .catch(function(){
+        if(!okResponse){
+          setStatus('error', 'Sorry, something went wrong sending your request. Please call or text 021 0812 3478, or email paintedbyjessnz@gmail.com.');
+        }
+      })
+      .finally(function(){
+        if(btn){ btn.disabled = false; btn.textContent = label; }
+      });
+  });
+})();
 </script>
 </body>
 </html>
