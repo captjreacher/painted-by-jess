@@ -275,3 +275,14 @@ footer a:hover{color:var(--pink-lt)}
 .svc-list{list-style:none;display:grid;gap:.7rem;margin-top:.4rem}
 .svc-list li{display:flex;gap:.6em;align-items:flex-start;color:var(--ink-2);font-size:.96rem}
 .svc-list li svg{flex:none;color:var(--pink);margin-top:4px}
+/* FAQ accordion */
+.faq{background:var(--pink-wash-2)}
+.faq .wrap{max-width:840px}
+.faq-list{display:grid;gap:.9rem;margin-top:.4rem}
+.faq-item{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:box-shadow .2s}
+.faq-item[open]{box-shadow:var(--shadow-sm)}
+.faq-item summary{list-style:none;cursor:pointer;padding:1.05rem 1.3rem;font-weight:600;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";font-family:'Anton',Impact,sans-serif;color:var(--pink);font-size:1.4rem;line-height:1;flex:none}
+.faq-item[open] summary::after{content:"\2013"}
+.faq-item .faq-a{padding:0 1.3rem 1.2rem;color:var(--ink-2);font-size:.96rem}
