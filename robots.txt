@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://painted-by-jess.staging.maximisedai.com/sitemap.xml
